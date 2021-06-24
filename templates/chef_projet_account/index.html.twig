@@ -73,9 +73,18 @@
             <!-- Content-->
             <div class="col-lg-8 col-md-7 mb-5">
                 <h1 class="h2">Mes projets</h1>
-                <a href="" type="button" class="btn btn-accent">Ajouter un projet</a>
+                <a href="{{ path('chef_create_project') }}" type="button" class="btn btn-accent">Ajouter un projet</a>
+
+                {% if projets|length > 0 %}
+                    {% for projets in projet %}
 
 
+
+                    {% endfor %}
+                {% else %}
+                    <br><br><br>
+                    Il n'y a pas de projet disponible
+                {% endif %}
 
             </div>
         </div>

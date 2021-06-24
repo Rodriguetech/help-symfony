@@ -40,7 +40,7 @@ class AdminController extends AbstractController
     #[Route('/edit/{id}', name: 'edit_user')]
     public function editUser(User $user , Request $request): Response
     {
-        $notification = null;
+
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 

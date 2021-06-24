@@ -35,9 +35,25 @@
                         <i class="fi-align-justify me-2"></i>Menu</a>
                     <div class="collapse d-md-block mt-3" id="account-nav">
                         <div class="card-nav">
-                            <a class="card-nav-link active" href="">
+                            <a class="card-nav-link active" href="{{ path('chef_projet_account') }}">
                                 <i class="fi-bookmark opacity-60 me-2"></i>
-                                Mes projets
+                                Projets
+                            </a>
+                            <a class="card-nav-link" href="{{ path('chef_client') }}">
+                                <i class="fi-user opacity-60 me-2"></i>
+                                Listes des clients
+                            </a>
+                            <a class="card-nav-link" href="{{ path('chef_dev') }}">
+                                <i class="fi-computer opacity-60 me-2"></i>
+                                Listes des développeurs
+                            </a>
+                            <a class="card-nav-link" href="">
+                                <i class="fi-slack opacity-60 me-2"></i>
+                                Tâches
+                            </a>
+                            <a class="card-nav-link" href="">
+                                <i class="fi-send  opacity-60 me-2"></i>
+                                Commentaires
                             </a>
 
                             <a class="card-nav-link" href="{{ path('profil') }}">
@@ -57,6 +73,47 @@
             <!-- Content-->
             <div class="col-lg-8 col-md-7 mb-5">
                 <h1 class="h2">Mes projets</h1>
+                <a href="{{ path('chef_projet_account') }}" type="button" class="btn btn-accent">Retour</a>
+
+                <br>
+                <br>
+                {% if notification %}
+                    <div class="alert alert-success" role="alert">
+                        {{ notification }}
+                    </div>
+                {% endif %}
+                {{ form_start(form)}}
+                <div class="mb-4">
+                    {{ form_row(form.nom,  {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="mb-4">
+                    {{ form_row(form.description,  {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="mb-4">
+                    {{ form_row(form.debut) }}
+                </div>
+
+                <div class="mb-4">
+                    {{ form_row(form.fin) }}
+                </div>
+
+                <div class="mb-4 form-label">
+                    {{ form_row(form.client , {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                <div class="mb-4 btn-group">
+                    {{ form_row(form.budget ,  {'attr': {'class': 'form-control'}} )}}
+                </div>
+
+                <div class="mb-4 form-label">
+                    {{ form_row(form.developpeur , {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                {{ form_row(form.submit) }}
+
+                {{ form_end(form) }}
 
             </div>
         </div>
