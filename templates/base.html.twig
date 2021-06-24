@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} Crm {% endblock %}</title>
+    <link href='' rel='icon'>
+    <link href='' rel='icon' type='image/svg+xml'>
+
+    <style>
+        .page-loading {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-transition: all .4s .2s ease-in-out;
+            transition: all .4s .2s ease-in-out;
+            background-color: #fff;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 9999;
+        }
+        .page-loading.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .page-loading-inner {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            -webkit-transition: opacity .2s ease-in-out;
+            transition: opacity .2s ease-in-out;
+            opacity: 0;
+        }
+        .page-loading.active > .page-loading-inner {
+            opacity: 1;
+        }
+        .page-loading-inner > span {
+            display: block;
+            font-size: 1rem;
+            font-weight: normal;
+            color: #666276;;
+        }
+        .page-spinner {
+            display: inline-block;
+            width: 2.75rem;
+            height: 2.75rem;
+            margin-bottom: .75rem;
+            vertical-align: text-bottom;
+            border: .15em solid #bbb7c5;
+            border-right-color: transparent;
+            border-radius: 50%;
+            -webkit-animation: spinner .75s linear infinite;
+            animation: spinner .75s linear infinite;
+        }
+        @-webkit-keyframes spinner {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes spinner {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+    <!-- Page loading scripts-->
+    <script>
+        (function () {
+            window.onload = function () {
+                var preloader = document.querySelector('.page-loading');
+                preloader.classList.remove('active');
+                setTimeout(function () {
+                    preloader.remove();
+                }, 2000);
+            };
+        })();
+    </script>
+    <!-- Vendor Styles-->
+    <link rel="stylesheet" media="screen" href="{{ asset('vendor/simplebar/dist/simplebar.min.css') }}"/>
+    <link rel="stylesheet" media="screen" href="{{ asset('vendor/tiny-slider/dist/tiny-slider.css') }}"/>
+    <link rel="stylesheet" media="screen" href="{{ asset('vendor/flatpickr/dist/flatpickr.min.css') }}"/>
+    <!-- Main Theme Styles + Bootstrap-->
+    <link rel="stylesheet" media="screen" href="{{ asset('css/theme.min.css') }}">
+
+</head>
+<body>
+<main class="page-wrapper">
+
+    <header class="navbar navbar-expand-lg navbar-light fixed-top" data-scroll-header>
+        <div class="container"><a class="navbar-brand me-3 me-xl-4" href="">
+                <!--  <img class="d-block" src="" width="116" alt="Jesuispret"> -->
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            {% if app.user %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('admin_index') }}">
+                        <i class="fi-user me-2"></i>
+                        Mon espace
+                    </a>
+                {% elseif is_granted('ROLE_CLIENT') %}
+                    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('client_account') }}">
+                        <i class="fi-user me-2"></i>
+                        Mon espace
+                    </a>
+                {% elseif is_granted('ROLE_DEV') %}
+                    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('dev_account') }}">
+                        <i class="fi-user me-2"></i>
+                        Mon espace
+                    </a>
+                {% elseif is_granted('ROLE_CHEF') %}
+                    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('chef_projet_account') }}">
+                        <i class="fi-user me-2"></i>
+                        Mon espace
+                    </a>
+                {% else %}
+                    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('default_account') }}">
+                        <i class="fi-user me-2"></i>
+                        Mon espace
+                    </a>
+                {% endif %}
+
+                <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('app_logout') }}">
+                    <i class="fi-logout me-2"></i>
+                    Déconnexion
+                </a>
+            {% else %}
+                <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('app_login') }}">
+                    <i class="fi-user me-2"></i>
+                    Connexion
+                </a>
+
+                <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{{ path('register') }}">
+                    <i class="fi-user-plus me-2"></i>
+                    Inscription
+                </a>
+            {% endif %}
+            <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
+                <ul class="navbar-nav navbar-nav-scroll" style="max-height: 35rem;">
+
+                    <li class="nav-item py-2 me-lg-2 active">
+                        <a class="nav-link align-items-center border-end-lg py-1 pe-lg-4" href="{{ path('home') }}">
+                            <i class="fi-home me-2"></i>Accueil
+                        </a>
+                    </li>
+                    <!-- Menu items-->
+                    <li class="nav-item">
+                        <a class="nav-link " href="" ></a>
+                    </li>
+
+                    {% if app.user %}
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item d-lg-none">
+                                <a class="nav-link" href="{{ path('admin_index') }}">
+                                    <i class="fi-user me-2"></i>Mon espace</a>
+                            </li>
+
+                        {% elseif is_granted('ROLE_CLIENT') %}
+                            <li class="nav-item d-lg-none">
+                                <a class="nav-link" href="{{ path('client_account') }}">
+                                    <i class="fi-user me-2"></i>Mon espace</a>
+                            </li>
+                        {% elseif is_granted('ROLE_DEV') %}
+                            <li class="nav-item d-lg-none">
+                                <a class="nav-link" href="{{ path('dev_account') }}">
+                                    <i class="fi-user me-2"></i>Mon espace</a>
+                            </li>
+                        {% elseif is_granted('ROLE_CHEF') %}
+                            <li class="nav-item d-lg-none">
+                                <a class="nav-link" href="{{ path('chef_projet_account') }}">
+                                    <i class="fi-user me-2"></i>Mon espace</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item d-lg-none">
+                                <a class="nav-link" href="{{ path('default_account') }}">
+                                    <i class="fi-user me-2"></i>Mon espace</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="{{ path('app_logout') }}">
+                                <i class="fi-logout me-2"></i>Déconnexion</a>
+                        </li>
+
+                    {% else %}
+
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="{{ path('app_login') }}">
+                                <i class="fi-user me-2"></i>Connexion</a>
+                        </li>
+
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="{{ path('register') }}">
+                                <i class="fi-user-plus me-2"></i>Inscription</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </header>
+    {% block content %}{% endblock %}
+</main>
+        <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('vendor/simplebar/dist/simplebar.min.js') }}"></script>
+        <script src="{{ asset('vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js') }}"></script>
+        <script src="{{ asset('vendor/tiny-slider/dist/min/tiny-slider.js') }}"></script>
+        <script src="{{ asset('vendor/flatpickr/dist/flatpickr.min.js') }}"></script>
+        <!-- Main theme script-->
+        <script src="{{ asset('js/theme.min.js') }}"></script>
+</body>
+</html>
