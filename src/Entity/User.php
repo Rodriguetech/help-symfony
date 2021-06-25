@@ -52,10 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $phone;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Projet::class, mappedBy="user")
-     */
-    private $projets;
+
 
     public function __construct()
     {
@@ -193,33 +190,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Projet[]
-     */
-    public function getProjets(): Collection
-    {
-        return $this->projets;
-    }
-
-    public function addProjet(Projet $projet): self
-    {
-        if (!$this->projets->contains($projet)) {
-            $this->projets[] = $projet;
-            $projet->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProjet(Projet $projet): self
-    {
-        if ($this->projets->removeElement($projet)) {
-            // set the owning side to null (unless already changed)
-            if ($projet->getUser() === $this) {
-                $projet->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -42,10 +42,6 @@ class ProjetType extends AbstractType
 
             ->add('description' , TextareaType::class,[
                 'required' => true,
-                'constraints' => new Length([
-                    'min' => 2,
-                    'max' => 30
-                ]),
                 'attr' => [
 
                 ]

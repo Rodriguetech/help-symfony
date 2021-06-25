@@ -76,10 +76,33 @@
                 <a href="{{ path('chef_create_project') }}" type="button" class="btn btn-accent">Ajouter un projet</a>
 
                 {% if projets|length > 0 %}
-                    {% for projets in projet %}
+                    {% for projets in projets %}
 
+                        <br>
+                        <br>
 
-
+                        <div class="card bg-secondary card-hover">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                </div>
+                                <h3 class="h6 card-title pt-1 mb-3">
+                                    <a href="#" class="text-nav stretched-link text-decoration-none">
+                                        Nom  du projet : <span class="text-success">{{ projets.nom }}</span></a>
+                                </h3>
+                                <br>
+                                <div class="fs-sm">
+                                    <h6>Description</h6>
+                                  <span class="text-nowrap me-3">
+                                   {{ projets.description }}
+                                  </span>
+                                    <h6>Budget</h6>
+                                   <span class="text-nowrap me-3">
+                                    <i class="fi-cash fs-base text-muted me-1"></i>
+                                    {{ projets.budget }}
+                                  </span>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 {% else %}
                     <br><br><br>

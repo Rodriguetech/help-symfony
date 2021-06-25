@@ -19,16 +19,6 @@ class Projet
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="projets")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -40,10 +30,7 @@ class Projet
      */
     private $debut;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $description;
+
 
     /**
      * @ORM\Column(type="datetime")
@@ -56,45 +43,20 @@ class Projet
     private $budget;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="projets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $client;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Developpeur::class, inversedBy="projets")
+     * @ORM\Column(type="string", length=255)
      */
     private $developpeur;
 
-    public function __construct()
-    {
-        $this->developpeur = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
 
     public function getNom(): ?string
     {
@@ -120,17 +82,6 @@ class Projet
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
 
     public function getFin(): ?\DateTimeInterface
     {
@@ -156,41 +107,42 @@ class Projet
         return $this;
     }
 
-    public function getClient(): ?Client
+    public function getClient(): ?string
     {
         return $this->client;
     }
 
-    public function setClient(?Client $client): self
+    public function setClient(string $client): self
     {
         $this->client = $client;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Developpeur[]
-     */
-    public function getDeveloppeur(): Collection
+    public function getDeveloppeur(): ?string
     {
         return $this->developpeur;
     }
 
-    public function addDeveloppeur(Developpeur $developpeur): self
+    public function setDeveloppeur(string $developpeur): self
     {
-        if (!$this->developpeur->contains($developpeur)) {
-            $this->developpeur[] = $developpeur;
-        }
+        $this->developpeur = $developpeur;
 
         return $this;
     }
 
-    public function removeDeveloppeur(Developpeur $developpeur): self
+    public function getDescription(): ?string
     {
-        $this->developpeur->removeElement($developpeur);
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
+
 
 
 
